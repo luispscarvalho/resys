@@ -1,0 +1,1560 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE Ontology [
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.semanticweb.org/resys/ontologies/2017/4/osore"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://www.semanticweb.org/resys/ontologies/2017/4/osore">
+    <Prefix name="" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Declaration>
+        <Class IRI="#Refactoring"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Template"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasTemplate"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#after"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#applicableTo"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#before"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#CBU"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#CBUTemplate"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#CCE"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#CCETemplate"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#DC"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#DCTemplate"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#EC"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ECTemplate"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ECo"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ECoTemplate"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#EF"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#EFTemplate"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#EH"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#EHTemplate"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#EI"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#EITemplate"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#EM"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#EMTemplate"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ESubC"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ESubCTemplate"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ESupC"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ESupCTemplate"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#HM"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#HMTemplate"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#IPO"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#IPOTemplate"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#MF"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#MFTemplate"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#MM"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#MMTemplate"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#PF"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#PFTemplate"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#PM"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#PMTemplate"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#PWO"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#PWOTemplate"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#RCWP"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#RCWPTemplate"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#RDWO"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#RDWOTemplate"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#RIWD"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#RIWDTemplate"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#RMWMO"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#RMWMOTemplate"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#RTWQ"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#RTWQTemplate"/>
+    </Declaration>
+    <ClassAssertion>
+        <Class IRI="#Refactoring"/>
+        <NamedIndividual IRI="#CBU"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Template"/>
+        <NamedIndividual IRI="#CBUTemplate"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Refactoring"/>
+        <NamedIndividual IRI="#CCE"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Template"/>
+        <NamedIndividual IRI="#CCETemplate"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Refactoring"/>
+        <NamedIndividual IRI="#DC"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Template"/>
+        <NamedIndividual IRI="#DCTemplate"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Refactoring"/>
+        <NamedIndividual IRI="#EC"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Template"/>
+        <NamedIndividual IRI="#ECTemplate"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Refactoring"/>
+        <NamedIndividual IRI="#ECo"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Template"/>
+        <NamedIndividual IRI="#ECoTemplate"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Refactoring"/>
+        <NamedIndividual IRI="#EF"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Template"/>
+        <NamedIndividual IRI="#EFTemplate"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Refactoring"/>
+        <NamedIndividual IRI="#EH"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Template"/>
+        <NamedIndividual IRI="#EHTemplate"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Refactoring"/>
+        <NamedIndividual IRI="#EI"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Template"/>
+        <NamedIndividual IRI="#EITemplate"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Refactoring"/>
+        <NamedIndividual IRI="#EM"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Template"/>
+        <NamedIndividual IRI="#EMTemplate"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Refactoring"/>
+        <NamedIndividual IRI="#ESubC"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Template"/>
+        <NamedIndividual IRI="#ESubCTemplate"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Refactoring"/>
+        <NamedIndividual IRI="#ESupC"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Template"/>
+        <NamedIndividual IRI="#ESupCTemplate"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Refactoring"/>
+        <NamedIndividual IRI="#HM"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Template"/>
+        <NamedIndividual IRI="#HMTemplate"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Refactoring"/>
+        <NamedIndividual IRI="#IPO"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Template"/>
+        <NamedIndividual IRI="#IPOTemplate"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Refactoring"/>
+        <NamedIndividual IRI="#MF"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Template"/>
+        <NamedIndividual IRI="#MFTemplate"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Refactoring"/>
+        <NamedIndividual IRI="#MM"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Template"/>
+        <NamedIndividual IRI="#MMTemplate"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Refactoring"/>
+        <NamedIndividual IRI="#PF"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Template"/>
+        <NamedIndividual IRI="#PFTemplate"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Refactoring"/>
+        <NamedIndividual IRI="#PM"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Template"/>
+        <NamedIndividual IRI="#PMTemplate"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Refactoring"/>
+        <NamedIndividual IRI="#PWO"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Template"/>
+        <NamedIndividual IRI="#PWOTemplate"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Refactoring"/>
+        <NamedIndividual IRI="#RCWP"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Template"/>
+        <NamedIndividual IRI="#RCWPTemplate"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Refactoring"/>
+        <NamedIndividual IRI="#RDWO"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Template"/>
+        <NamedIndividual IRI="#RDWOTemplate"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Refactoring"/>
+        <NamedIndividual IRI="#RIWD"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Template"/>
+        <NamedIndividual IRI="#RIWDTemplate"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Refactoring"/>
+        <NamedIndividual IRI="#RMWMO"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Template"/>
+        <NamedIndividual IRI="#RMWMOTemplate"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Refactoring"/>
+        <NamedIndividual IRI="#RTWQ"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Template"/>
+        <NamedIndividual IRI="#RTWQTemplate"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <NamedIndividual IRI="#CBU"/>
+        <NamedIndividual IRI="#CBUTemplate"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <NamedIndividual IRI="#CCE"/>
+        <NamedIndividual IRI="#CCETemplate"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <NamedIndividual IRI="#DC"/>
+        <NamedIndividual IRI="#DCTemplate"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <NamedIndividual IRI="#EC"/>
+        <NamedIndividual IRI="#ECTemplate"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <NamedIndividual IRI="#ECo"/>
+        <NamedIndividual IRI="#ECoTemplate"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <NamedIndividual IRI="#EF"/>
+        <NamedIndividual IRI="#EFTemplate"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <NamedIndividual IRI="#EH"/>
+        <NamedIndividual IRI="#EHTemplate"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <NamedIndividual IRI="#EI"/>
+        <NamedIndividual IRI="#EITemplate"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <NamedIndividual IRI="#EM"/>
+        <NamedIndividual IRI="#EMTemplate"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <NamedIndividual IRI="#ESubC"/>
+        <NamedIndividual IRI="#ESubCTemplate"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <NamedIndividual IRI="#ESupC"/>
+        <NamedIndividual IRI="#ESupCTemplate"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <NamedIndividual IRI="#HM"/>
+        <NamedIndividual IRI="#HMTemplate"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <NamedIndividual IRI="#IPO"/>
+        <NamedIndividual IRI="#IPOTemplate"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <NamedIndividual IRI="#MF"/>
+        <NamedIndividual IRI="#MFTemplate"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <NamedIndividual IRI="#MM"/>
+        <NamedIndividual IRI="#MMTemplate"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <NamedIndividual IRI="#PF"/>
+        <NamedIndividual IRI="#PFTemplate"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <NamedIndividual IRI="#PM"/>
+        <NamedIndividual IRI="#PMTemplate"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <NamedIndividual IRI="#PWO"/>
+        <NamedIndividual IRI="#PWOTemplate"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <NamedIndividual IRI="#RCWP"/>
+        <NamedIndividual IRI="#RCWPTemplate"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <NamedIndividual IRI="#RDWO"/>
+        <NamedIndividual IRI="#RDWOTemplate"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <NamedIndividual IRI="#RIWD"/>
+        <NamedIndividual IRI="#RIWDTemplate"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <NamedIndividual IRI="#RMWMO"/>
+        <NamedIndividual IRI="#RMWMOTemplate"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <NamedIndividual IRI="#RTWQ"/>
+        <NamedIndividual IRI="#RTWQTemplate"/>
+    </ObjectPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#CBU"/>
+        <Literal datatypeIRI="&xsd;string">RefuseParentBequest</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <NamedIndividual IRI="#CBU"/>
+        <Literal datatypeIRI="&xsd;string">You have a two-way association but one class no longer needs features from the other. Drop the unneeded end of the association.</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <NamedIndividual IRI="#CBU"/>
+        <Literal datatypeIRI="&xsd;string">Change Bidirectional Association to Unidirectional</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#after"/>
+        <NamedIndividual IRI="#CBUTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class A
+{
+   private B b;
+   ...
+}
+
+public class B
+{
+
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#before"/>
+        <NamedIndividual IRI="#CBUTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class A
+{
+   private B b;
+   ...
+}
+
+public class B
+{
+   private A a;
+   ...
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#CCE"/>
+        <Literal datatypeIRI="&xsd;string">LongMethod</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <NamedIndividual IRI="#CCE"/>
+        <Literal datatypeIRI="&xsd;string">You have a sequence of conditional tests with the same result. Combine them into a single conditional expression and extract it</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <NamedIndividual IRI="#CCE"/>
+        <Literal datatypeIRI="&xsd;string">Consolidate Conditional Expression</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#after"/>
+        <NamedIndividual IRI="#CCETemplate"/>
+        <Literal datatypeIRI="&xsd;string">double disabilityAmount() {
+  if (isNotEligableForDisability()) return 0;
+  // compute the disability amount</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#before"/>
+        <NamedIndividual IRI="#CCETemplate"/>
+        <Literal datatypeIRI="&xsd;string">double disabilityAmount() {
+  if (_seniority &lt; 2) return 0;
+  if (_monthsDisabled &gt; 12) return 0;
+  if (_isPartTime) return 0;
+  // compute the disability amount</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#DC"/>
+        <Literal datatypeIRI="&xsd;string">LongMethod</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <NamedIndividual IRI="#DC"/>
+        <Literal datatypeIRI="&xsd;string">You have a complicated conditional (if-then-else) statement. Extract methods from the condition, then part, and else parts</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <NamedIndividual IRI="#DC"/>
+        <Literal datatypeIRI="&xsd;string">Decompose Conditional</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#after"/>
+        <NamedIndividual IRI="#DCTemplate"/>
+        <Literal datatypeIRI="&xsd;string">if (notSummer(date))
+  charge = winterCharge(quantity);
+else charge = summerCharge (quantity);</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#before"/>
+        <NamedIndividual IRI="#DCTemplate"/>
+        <Literal datatypeIRI="&xsd;string">if (date.before (SUMMER_START) || date.after(SUMMER_END))
+  charge = quantity * _winterRate + _winterServiceCharge;
+else charge = quantity * _summerRate;</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#EC"/>
+        <Literal datatypeIRI="&xsd;string">BrainClass</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#EC"/>
+        <Literal datatypeIRI="&xsd;string">RefuseParentBequest</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <NamedIndividual IRI="#EC"/>
+        <Literal datatypeIRI="&xsd;string">You have one class doing work that should be done by two. Create a new class and move the relevant fields and methods from the old class into the new class.</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <NamedIndividual IRI="#EC"/>
+        <Literal datatypeIRI="&xsd;string">Extract Class</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#after"/>
+        <NamedIndividual IRI="#ECTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class Person {
+  private String name;
+  private TelephoneNumber telephoneNumber;
+  ...
+  public String getTelephoneNumber() {
+     return telephoneNumber.getNumber();
+  }
+}
+
+public class TelephoneNumber {
+  private int officeAreaCode;
+  private int officeNumber;
+
+  public String getNumber() {
+     return officeAreaCode + &quot;-&quot; + officeNumber;
+  }
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#before"/>
+        <NamedIndividual IRI="#ECTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class Person {
+  private String name;
+  private int officeAreaCode;
+  private int officeNumber;
+  ...
+  public String getTelephoneNumber() {
+     return officeAreaCode + &quot;-&quot; + officeNumber;
+  }
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#ECo"/>
+        <Literal datatypeIRI="&xsd;string">DataClass</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <NamedIndividual IRI="#ECo"/>
+        <Literal datatypeIRI="&xsd;string">A method returns a collection. Make it return a read-only view and provide add/remove methods.</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <NamedIndividual IRI="#ECo"/>
+        <Literal datatypeIRI="&xsd;string">Encapsulate Collection</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#after"/>
+        <NamedIndividual IRI="#ECoTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class Person {
+  getCourses(): unmoifiableSet;
+  addCourse(:Course);
+  removeCourse(:Course);
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#before"/>
+        <NamedIndividual IRI="#ECoTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class Person {
+  getCourses(): 
+  setCourses(:Set)
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#EF"/>
+        <Literal datatypeIRI="&xsd;string">DataClass</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <NamedIndividual IRI="#EF"/>
+        <Literal datatypeIRI="&xsd;string">There is a public field. Make it private and provide accessors.</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <NamedIndividual IRI="#EF"/>
+        <Literal datatypeIRI="&xsd;string">Encapsulate Field</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#after"/>
+        <NamedIndividual IRI="#EFTemplate"/>
+        <Literal datatypeIRI="&xsd;string">private String _name;
+public String getName() {return _name;}
+public void setName(String arg) {_name = arg;}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#before"/>
+        <NamedIndividual IRI="#EFTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public String _name</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#EH"/>
+        <Literal datatypeIRI="&xsd;string">GodClass</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <NamedIndividual IRI="#EH"/>
+        <Literal datatypeIRI="&xsd;string">You have a class that is doing too much work, at least in part through many conditional statements. Create a hierarchy of classes in which each subclass represents a special case.</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <NamedIndividual IRI="#EH"/>
+        <Literal datatypeIRI="&xsd;string">Extract Hierarchy</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#after"/>
+        <NamedIndividual IRI="#EHTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public interface BillingScheme {
+  public void process();
+}
+
+public class BusinessBillingScheme implements BillingScheme {
+  public void process() {
+    // ... lengthy operation here
+  }
+}
+
+public class ResidentialBillingScheme implements BillingScheme {
+  public void process() {
+    // ... lengthy operation here
+  }
+}
+
+public class DisabilityBillingScheme implements BillingScheme {
+  public void process() {
+    // ... lengthy operation here
+  }
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#before"/>
+        <NamedIndividual IRI="#EHTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class BillingScheme {
+
+  public void process(SchemeType st) {
+    if (st == Business) {
+      ... // lengthy operation here
+    } else if (st == Residential) {
+      ... // lengthy operation here
+    } else if (st == Disability) {
+      ... // lengthy operation here
+    }
+  }
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#EI"/>
+        <Literal datatypeIRI="&xsd;string">GodClass</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <NamedIndividual IRI="#EI"/>
+        <Literal datatypeIRI="&xsd;string">Several clients use the same subset of a class&apos;s interface, or two classes have part of their interfaces in common. Extract the subset into an interface.</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <NamedIndividual IRI="#EI"/>
+        <Literal datatypeIRI="&xsd;string">Extract Interface</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#after"/>
+        <NamedIndividual IRI="#EITemplate"/>
+        <Literal datatypeIRI="&xsd;string">public interface ControllerInterface
+{
+    public void doAddAction();
+    public void doEditAction();
+    public void doViewAction();
+    public void doDeleteAction();
+    public void doSearchAction();
+}
+
+public class ProcessController implements ControllerInterface
+{
+    // same code as before ...
+}
+
+public class EntityController implements ControllerInterface
+{
+    // same code as before ...
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#before"/>
+        <NamedIndividual IRI="#EITemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class ProcessController
+{
+    public void doAddAction() { // stuff here ... }
+    public void doEditAction() { // stuff here ... }
+    public void doViewAction() { // stuff here ... }
+    public void doDeleteAction() { // stuff here ... }
+    public void doSearchAction() { // stuff here ... }
+}
+
+public class EntityController
+{
+    public void doAddAction() { // stuff here ... }
+    public void doEditAction() { // stuff here ... }
+    public void doViewAction() { // stuff here ... }
+    public void doDeleteAction() { // stuff here ... }
+    public void doSearchAction() { // stuff here ... }
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#EM"/>
+        <Literal datatypeIRI="&xsd;string">LongMethod</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#EM"/>
+        <Literal datatypeIRI="&xsd;string">DataClass</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#EM"/>
+        <Literal datatypeIRI="&xsd;string">FeatureEnvy</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#EM"/>
+        <Literal datatypeIRI="&xsd;string">BrainClass</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <NamedIndividual IRI="#EM"/>
+        <Literal datatypeIRI="&xsd;string">You have a code fragment that can be grouped together. Turn the fragment into a method whose name explains the purpose of the method.</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <NamedIndividual IRI="#EM"/>
+        <Literal datatypeIRI="&xsd;string">Extract Method</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#after"/>
+        <NamedIndividual IRI="#EMTemplate"/>
+        <Literal datatypeIRI="&xsd;string">void printOwing() {
+  printBanner();
+  printDetails(getOutstanding());
+}
+
+void printDetails (double outstanding) {
+  System.out.println (&quot;name:  &quot; + _name);
+  System.out.println (&quot;amount &quot; + outstanding);
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#before"/>
+        <NamedIndividual IRI="#EMTemplate"/>
+        <Literal datatypeIRI="&xsd;string">void printOwing() {
+  printBanner();
+
+  //print details
+  System.out.println (&quot;name:  &quot; + _name);
+  System.out.println (&quot;amount &quot; + getOutstanding());
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <NamedIndividual IRI="#ESubC"/>
+        <Literal datatypeIRI="&xsd;string">GodClass</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <NamedIndividual IRI="#ESubC"/>
+        <Literal datatypeIRI="&xsd;string">A class has features that are used only in some instances. Create a subclass for that subset of features.</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <NamedIndividual IRI="#ESubC"/>
+        <Literal datatypeIRI="&xsd;string">Extract Subclass</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#after"/>
+        <NamedIndividual IRI="#ESubCTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class JobItem {
+  double getTotalPrice();
+  double getUnitPrice();
+}
+
+public class LaborItem {
+  double getUnitPrice();
+  Employee getEmployee();
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#before"/>
+        <NamedIndividual IRI="#ESubCTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class JobItem {
+  double getTotalPrice();
+  double getUnitPrice();
+  Employee getEmployee();
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#ESupC"/>
+        <Literal datatypeIRI="&xsd;string">GodClass</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <NamedIndividual IRI="#ESupC"/>
+        <Literal datatypeIRI="&xsd;string">You have two classes with similar features. Create a superclass and move the common features to the superclass.</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <NamedIndividual IRI="#ESupC"/>
+        <Literal datatypeIRI="&xsd;string">Extract Superclass</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#after"/>
+        <NamedIndividual IRI="#ESupCTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class Party {
+  double getTotalAnnualCost() {
+
+  }
+
+  String getName() {
+
+  }
+
+}
+
+public class Department extends Party {
+  double getTotalAnnualCost() {
+     double value = super.getTotalAnnualCost();
+     // ...execute more operations
+  }
+
+  String getName() {
+    String name = super.getName();
+     // ...execute more operations
+  }
+
+  int getHeadCount() {
+  }
+}
+
+public class Employee extends Party {
+  double getTotalAnnualCost() {
+     double value = super.getTotalAnnualCost();
+     // ...execute more operations
+  }
+
+  String getName() {
+    String name = super.getName();
+     // ...execute more operations
+  }
+
+  String getId() {
+
+  }
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#before"/>
+        <NamedIndividual IRI="#ESupCTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class Department {
+  double getTotalAnnualCost() {
+    // ... repeated operations here
+  }
+
+  String getName() {
+    // ... repeated operations here
+  }
+
+  int getHeadCount() {
+  }
+}
+
+public class Employee {
+  double getAnnualCost() {
+    // ... repeated operations here
+  }
+
+  String getName() {
+    // ... repeated operations here
+  }
+
+  String getId() {
+  }
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#HM"/>
+        <Literal datatypeIRI="&xsd;string">DataClass</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <NamedIndividual IRI="#HM"/>
+        <Literal datatypeIRI="&xsd;string">A method is not used by any other class. Make the method private.</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <NamedIndividual IRI="#HM"/>
+        <Literal datatypeIRI="&xsd;string">Hide Method</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#after"/>
+        <NamedIndividual IRI="#HMTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class Employee {
+  private void aMethod();
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#before"/>
+        <NamedIndividual IRI="#HMTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class Employee {
+  public void aMethod();
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#IPO"/>
+        <Literal datatypeIRI="&xsd;string">LongMethod</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <NamedIndividual IRI="#IPO"/>
+        <Literal datatypeIRI="&xsd;string">You have a group of parameters that naturally go together. Replace them with an object.</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <NamedIndividual IRI="#IPO"/>
+        <Literal datatypeIRI="&xsd;string">Introduce Parameter Object</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#after"/>
+        <NamedIndividual IRI="#IPOTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class Customer {
+  amountInvoicedIn (: DateRange)
+  amountReceivedIn (: DateRange)
+  amountOverdueIn (: DateRange)
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#before"/>
+        <NamedIndividual IRI="#IPOTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class  Customer {
+  amountInvoicedIn (start : Date, end : Date)
+  amountReceivedIn (start : Date, end : Date)
+  amountOverdueIn (start : Date, end : Date)
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#MF"/>
+        <Literal datatypeIRI="&xsd;string">GodClass</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#MF"/>
+        <Literal datatypeIRI="&xsd;string">FeatureEnvy</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <NamedIndividual IRI="#MF"/>
+        <Literal datatypeIRI="&xsd;string">A field is, or will be, used by another class more than the class on which it is defined. Create a new field in the target class, and change all its users.</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <NamedIndividual IRI="#MF"/>
+        <Literal datatypeIRI="&xsd;string">Move Field</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#after"/>
+        <NamedIndividual IRI="#MFTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class Class1{
+aField;
+}
+
+public class Class2 {
+  aField;
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#before"/>
+        <NamedIndividual IRI="#MFTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class Class1{
+  aField;
+}
+
+public class Class2 {
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#MM"/>
+        <Literal datatypeIRI="&xsd;string">RefuseParentBequest</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#MM"/>
+        <Literal datatypeIRI="&xsd;string">FeatureEnvy</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#MM"/>
+        <Literal datatypeIRI="&xsd;string">DataClass</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#MM"/>
+        <Literal datatypeIRI="&xsd;string">GodClass</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#MM"/>
+        <Literal datatypeIRI="&xsd;string">BrainMethod</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <NamedIndividual IRI="#MM"/>
+        <Literal datatypeIRI="&xsd;string">A method is, or will be, using or used by more features of another class than the class on which it is defined. Create a new method with a similar body in the class it uses most. Either turn the old method into a simple delegation, or remove it altogether.</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <NamedIndividual IRI="#MM"/>
+        <Literal datatypeIRI="&xsd;string">Move Method</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#after"/>
+        <NamedIndividual IRI="#MMTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class Class1{
+}
+
+public class Class2 {
+  aMethod();
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#before"/>
+        <NamedIndividual IRI="#MMTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class Class1{
+  aMethod();
+}
+
+public class Class2 {
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#PF"/>
+        <Literal datatypeIRI="&xsd;string">GodClass</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <NamedIndividual IRI="#PF"/>
+        <Literal datatypeIRI="&xsd;string">Two subclasses have the same field. Move the field to the superclass.</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <NamedIndividual IRI="#PF"/>
+        <Literal datatypeIRI="&xsd;string">Pull-up Field</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#after"/>
+        <NamedIndividual IRI="#PFTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class Employee {
+  String name;
+}
+
+public class Salesman extends Employee {
+}
+
+public class Engineer extends Employee {
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#before"/>
+        <NamedIndividual IRI="#PFTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class Employee {
+}
+
+public class Salesman extends Employee {
+  String name;
+}
+
+public class Engineer extends Employee {
+  String name;
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#PM"/>
+        <Literal datatypeIRI="&xsd;string">GodClass</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <NamedIndividual IRI="#PM"/>
+        <Literal datatypeIRI="&xsd;string">You have methods with identical results on subclasses. Move them to the superclass.</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <NamedIndividual IRI="#PM"/>
+        <Literal datatypeIRI="&xsd;string">Pull-up Method</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#after"/>
+        <NamedIndividual IRI="#PMTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class Employee {
+  getName();
+}
+
+public class Salesman extends Employee {
+}
+
+public class Engineer extends Employee {
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#before"/>
+        <NamedIndividual IRI="#PMTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class Employee {
+}
+
+public class Salesman extends Employee {
+  getName();
+}
+
+public class Engineer extends Employee {
+  getName();
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#PWO"/>
+        <Literal datatypeIRI="&xsd;string">LongMethod</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <NamedIndividual IRI="#PWO"/>
+        <Literal datatypeIRI="&xsd;string">You are getting several values from an object and passing these values as parameters in a method call. Send the whole object instead.</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <NamedIndividual IRI="#PWO"/>
+        <Literal datatypeIRI="&xsd;string">Preserve Whole Object</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#after"/>
+        <NamedIndividual IRI="#PWOTemplate"/>
+        <Literal datatypeIRI="&xsd;string">withinPlan = plan.withinRange(daysTempRange());</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#before"/>
+        <NamedIndividual IRI="#PWOTemplate"/>
+        <Literal datatypeIRI="&xsd;string">int low = daysTempRange().getLow();
+int high = daysTempRange().getHigh();
+withinPlan = plan.withinRange(low, high);</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#RCWP"/>
+        <Literal datatypeIRI="&xsd;string">GodClass</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#RCWP"/>
+        <Literal datatypeIRI="&xsd;string">BrainMethod</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <NamedIndividual IRI="#RCWP"/>
+        <Literal datatypeIRI="&xsd;string">You have a conditional that chooses different behavior depending on the type of an object. Move each leg of the conditional to an overriding method in a subclass. Make the original method abstract.</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <NamedIndividual IRI="#RCWP"/>
+        <Literal datatypeIRI="&xsd;string">Replace Conditional with Polymorphism</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#after"/>
+        <NamedIndividual IRI="#RCWPTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public  abstract class Bird {
+  double getSpeed();
+}
+
+public class European extends Bird {
+  double getSpeed() {
+    return getBaseSpeed();
+  }
+}
+
+public class European extends African {
+  double getSpeed() {
+    return getBaseSpeed() - getLoadFactor() * _numberOfCoconuts;
+  }
+}
+
+public class European extends Bird {
+  double getSpeed() {
+    return (_isNailed) ? 0 : getBaseSpeed(_voltage);
+  }
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#before"/>
+        <NamedIndividual IRI="#RCWPTemplate"/>
+        <Literal datatypeIRI="&xsd;string">double getSpeed() {
+  switch (_type) {
+    case EUROPEAN:
+      return getBaseSpeed();
+    case AFRICAN:
+      return getBaseSpeed() - getLoadFactor() * _numberOfCoconuts;
+    case NORWEGIAN_BLUE:
+      return (_isNailed) ? 0 : getBaseSpeed(_voltage);
+  }
+  throw new RuntimeException (&quot;Should be unreachable&quot;);
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#RDWO"/>
+        <Literal datatypeIRI="&xsd;string">GodClass</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <NamedIndividual IRI="#RDWO"/>
+        <Literal datatypeIRI="&xsd;string">You have a data item that needs additional data or behavior. Turn the data item into an object.</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <NamedIndividual IRI="#RDWO"/>
+        <Literal datatypeIRI="&xsd;string">Replace Data Value with Object</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#after"/>
+        <NamedIndividual IRI="#RDWOTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class Order {
+  Customer customer;
+}
+
+public class Customer {
+  String name;
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#before"/>
+        <NamedIndividual IRI="#RDWOTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class Order {
+  String customer;
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#RIWD"/>
+        <Literal datatypeIRI="&xsd;string">RefuseParentBequest</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <NamedIndividual IRI="#RIWD"/>
+        <Literal datatypeIRI="&xsd;string">A subclass uses only part of a superclasses interface or does not want to inherit data. Create a field for the superclass, adjust methods to delegate to the superclass, and remove the subclassing.</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <NamedIndividual IRI="#RIWD"/>
+        <Literal datatypeIRI="&xsd;string">Replace Inheritance with Delegation</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#after"/>
+        <NamedIndividual IRI="#RIWDTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class Vector {
+   boolean isEmpty();
+}
+
+public class Stack {
+  Vector vector;
+
+  boolean isEmpty() {
+    return this.vector.isEmpty();
+  }
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#before"/>
+        <NamedIndividual IRI="#RIWDTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class Vector {
+   boolean isEmpty();
+}
+
+public class Stack extends Vector {
+
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#RMWMO"/>
+        <Literal datatypeIRI="&xsd;string">BrainMethod</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#RMWMO"/>
+        <Literal datatypeIRI="&xsd;string">LongMethod</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <NamedIndividual IRI="#RMWMO"/>
+        <Literal datatypeIRI="&xsd;string">You have a long method that uses local variables in such a way that you cannot apply Extract Method. Turn the method into its own object so that all the local variables become fields on that object. You can then decompose the method into other methods on the same object.</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <NamedIndividual IRI="#RMWMO"/>
+        <Literal datatypeIRI="&xsd;string">Replace Method with Method Object</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#after"/>
+        <NamedIndividual IRI="#RMWMOTemplate"/>
+        <Literal datatypeIRI="&xsd;string">public class Order {
+  //...
+  public double price() {
+    return new PriceCalculator(this).compute();
+  }
+}
+
+public class PriceCalculator {
+  private double primaryBasePrice;
+  private double secondaryBasePrice;
+  private double tertiaryBasePrice;
+  
+  public PriceCalculator(Order order) {
+    // copy relevant information from order object.
+    //...
+  }
+  
+  public double compute() {
+    // long computation.
+    //...
+  }
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#before"/>
+        <NamedIndividual IRI="#RMWMOTemplate"/>
+        <Literal datatypeIRI="&xsd;string">class Order...
+double price() {
+  double primaryBasePrice;
+  double secondaryBasePrice;
+  double tertiaryBasePrice;
+  // long computation;
+  ...
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#applicableTo"/>
+        <NamedIndividual IRI="#RTWQ"/>
+        <Literal datatypeIRI="&xsd;string">LongMethod</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <NamedIndividual IRI="#RTWQ"/>
+        <Literal datatypeIRI="&xsd;string">You are using a temporary variable to hold the result of an expression. Extract the expression into a method. Replace all references to the temp with the expression. The new method can then be used in other methods.</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <NamedIndividual IRI="#RTWQ"/>
+        <Literal datatypeIRI="&xsd;string">Replace Temp with Query</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#after"/>
+        <NamedIndividual IRI="#RTWQTemplate"/>
+        <Literal datatypeIRI="&xsd;string">if (basePrice() &gt; 1000)
+  return basePrice() * 0.95;
+else
+  return basePrice() * 0.98;
+...
+double basePrice() {
+  return _quantity * _itemPrice;
+}</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#before"/>
+        <NamedIndividual IRI="#RTWQTemplate"/>
+        <Literal datatypeIRI="&xsd;string">double basePrice = _quantity * _itemPrice;
+if (basePrice &gt; 1000)
+  return basePrice * 0.95;
+else
+  return basePrice * 0.98;</Literal>
+    </DataPropertyAssertion>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <Class IRI="#Refactoring"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasTemplate"/>
+        <Class IRI="#Template"/>
+    </ObjectPropertyRange>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#after"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#applicableTo"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#before"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <DataPropertyDomain>
+        <DataProperty IRI="#after"/>
+        <Class IRI="#Template"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#applicableTo"/>
+        <Class IRI="#Refactoring"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#before"/>
+        <Class IRI="#Template"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <Class IRI="#Refactoring"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <Class IRI="#Refactoring"/>
+    </DataPropertyDomain>
+    <DataPropertyRange>
+        <DataProperty IRI="#after"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#applicableTo"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#before"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/repositories#name"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 3.5.1) http://owlapi.sourceforge.net -->
+

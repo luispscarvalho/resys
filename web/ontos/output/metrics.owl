@@ -1,0 +1,249 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE Ontology [
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.semanticweb.org/resys/ontologies/2016/1/metrics"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://www.semanticweb.org/resys/ontologies/2016/1/metrics">
+    <Prefix name="" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Declaration>
+        <Class IRI="#AMW"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ATFD"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BM"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BOvR"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BUR"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#CCPERMLOC"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#CYCLO"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ClassOrientedMetric"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DIT"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FDP"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LAA"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LOC"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LVAR"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#MAXNESTING"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#MLOC"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#MethodOrientedMetric"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Metric"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NOA"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NOAM"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NOAV"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NOM"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NOPA"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NProtM"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PAR"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCC"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#WMC"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#WOC"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#description"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#measuredValue"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="#AMW"/>
+        <Class IRI="#ClassOrientedMetric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ATFD"/>
+        <Class IRI="#ClassOrientedMetric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BM"/>
+        <Class IRI="#ClassOrientedMetric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BOvR"/>
+        <Class IRI="#ClassOrientedMetric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BUR"/>
+        <Class IRI="#ClassOrientedMetric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#CCPERMLOC"/>
+        <Class IRI="#MethodOrientedMetric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#CYCLO"/>
+        <Class IRI="#MethodOrientedMetric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ClassOrientedMetric"/>
+        <Class IRI="#Metric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DIT"/>
+        <Class IRI="#ClassOrientedMetric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FDP"/>
+        <Class IRI="#ClassOrientedMetric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LAA"/>
+        <Class IRI="#MethodOrientedMetric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LOC"/>
+        <Class IRI="#ClassOrientedMetric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LVAR"/>
+        <Class IRI="#MethodOrientedMetric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MAXNESTING"/>
+        <Class IRI="#MethodOrientedMetric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MLOC"/>
+        <Class IRI="#MethodOrientedMetric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MethodOrientedMetric"/>
+        <Class IRI="#Metric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#NOA"/>
+        <Class IRI="#ClassOrientedMetric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#NOAM"/>
+        <Class IRI="#ClassOrientedMetric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#NOAV"/>
+        <Class IRI="#MethodOrientedMetric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#NOM"/>
+        <Class IRI="#ClassOrientedMetric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#NOPA"/>
+        <Class IRI="#ClassOrientedMetric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#NProtM"/>
+        <Class IRI="#ClassOrientedMetric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PAR"/>
+        <Class IRI="#MethodOrientedMetric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TCC"/>
+        <Class IRI="#ClassOrientedMetric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#WMC"/>
+        <Class IRI="#ClassOrientedMetric"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#WOC"/>
+        <Class IRI="#ClassOrientedMetric"/>
+    </SubClassOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#description"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#measuredValue"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <DataPropertyDomain>
+        <DataProperty IRI="#description"/>
+        <Class IRI="#Metric"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#measuredValue"/>
+        <Class IRI="#Metric"/>
+    </DataPropertyDomain>
+    <DataPropertyRange>
+        <DataProperty IRI="#description"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#measuredValue"/>
+        <Datatype abbreviatedIRI="xsd:float"/>
+    </DataPropertyRange>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#TCC</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Individuals of this class may be named after a generated rash#</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 3.5.1) http://owlapi.sourceforge.net -->
+
