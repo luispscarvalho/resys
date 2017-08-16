@@ -41,11 +41,6 @@ import br.org.resys.rre.impl.Template;
  * <li>binding refactorings to instances of smells</li>
  * </ul>
  * <p>
- * Possible improvements are:
- * <ul>
- * <li>add a lazy loading of osore instances</li>
- * <li>add a lazy recommendation of refactorings</li>
- * </ul>
  * 
  * @author Luis Paulo
  */

@@ -15,7 +15,7 @@ import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.ModelFactory;
 
 import br.org.resys.en.OntosIRI;
-import br.org.resys.export.IExporter;
+import br.org.resys.export.ISparqlProcessingAdapter;
 
 /**
  * Connector that supports the querying of ontologies
@@ -23,8 +23,8 @@ import br.org.resys.export.IExporter;
  * This class is capable of:
  * <ul>
  * <li>executing SPARQL statements on ontologies (ONTOCEAN + OSORE)</li>
- * <li>processing/exporting of resultsets through instances of
- * {@link IExporter}</li>
+ * <li>setup and processing/exporting of resultsets through instances of
+ * {@link ISparqlProcessingAdapter}</li>
  * </ul>
  * <p>
  * Contrary to other connectors, this one relies on JENA to select data from our
@@ -75,17 +75,18 @@ public class SparqlConnector {
 	 * The "ontology" parameter must be a full path to an instance of ontocean
 	 * after the smells and refactorings are processed and embedeed into it.
 	 * <p>
-	 * The sparql statement is provided by {@link IExporter} which is also
-	 * responsible for exporting/processing a row of the resultset.
+	 * The sparql statement is provided by {@link ISparqlProcessingAdapter}
+	 * which is also responsible for exporting/processing the rows of the
+	 * resultset.
 	 * 
 	 * @param ontology
 	 *            instance of ontocean
-	 * @param exporter
-	 *            instance of {@link IExporter}
+	 * @param adapter
+	 *            instance of {@link ISparqlProcessingAdapter}
 	 * @throws Exception
 	 * @return instance of #SparqlConnector
 	 */
-	public SparqlConnector executeExporter(String ontology, IExporter exporter) throws Exception {
+	public SparqlConnector executeExporter(String ontology, ISparqlProcessingAdapter adapter) throws Exception {
 		OntModel model = ModelFactory.createOntologyModel();
 
 		OntDocumentManager docManager = model.getDocumentManager();
@@ -96,18 +97,18 @@ public class SparqlConnector {
 
 		model.read(new FileReader(new File(outputPath + "/" + ontology)), "RDF/XML");
 
-		Query query = QueryFactory.create(exporter.getSparql());
+		Query query = QueryFactory.create(adapter.getSparql());
 		QueryExecution qexec = QueryExecutionFactory.create(query, model);
 		ResultSet results = qexec.execSelect();
 
-		exporter.init(outputPath);
+		adapter.init(outputPath);
 		while (results.hasNext()) {
 			QuerySolution result = results.nextSolution();
 
-			exporter.export(result);
+			adapter.processing(result);
 		}
-		exporter.conclude();
-		
+		adapter.conclude();
+
 		return this;
 	}
 

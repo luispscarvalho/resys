@@ -58,11 +58,6 @@ import br.org.resys.util.Util;
  * <li>combining elements of ocean and osore in a new ontology</li>
  * </ul>
  * <p>
- * Possible improvements are:
- * <ul>
- * <li>add a lazy loading of ocean instances</li>
- * <li>add a lazy recommendation of refactorings</li>
- * </ul>
  * 
  * @author Luis Paulo
  */
