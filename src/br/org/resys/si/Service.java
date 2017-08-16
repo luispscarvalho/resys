@@ -18,7 +18,9 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 
-import br.org.resys.data.Smell;
+import br.org.resys.en.Smells;
+import br.org.resys.export.connector.SparqlConnector;
+import br.org.resys.export.impl.IncidenceOfRefactoringsThroughTimeExporter;
 import br.org.resys.rre.IRefactoring;
 import br.org.resys.rre.connector.OceanConnector;
 import br.org.resys.rre.connector.OsoreConnector;
@@ -87,7 +89,7 @@ public class Service {
 	@Path("/smells")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String getSmells() {
-		return Smell.getAllLabels().toString();
+		return Smells.getAllLabels().toString();
 	}
 
 	/**
@@ -119,6 +121,7 @@ public class Service {
 	 *         recommendations</li>
 	 *         <li>all imported ontologies</li>
 	 *         </ul>
+	 *         "millis": the duration of the recommendation
 	 */
 	@GET
 	@Path("/recommend/{ocean}")
@@ -131,16 +134,53 @@ public class Service {
 			OceanConnector oceanConnector = OceanConnector.getInstance().init(properties);
 
 			String newOnto = oceanConnector.loadAndReplicate(ocean);
-			Map<Smell, List<OWLNamedIndividual>> smells = oceanConnector.loadSmells();
+			Map<Smells, List<OWLNamedIndividual>> smells = oceanConnector.loadSmells();
 			Map<OWLNamedIndividual, List<IRefactoring>> refactorings = OsoreConnector.getInstance()
 					.recommendRefactorings(smells);
 
 			String newZip = oceanConnector.saveRefactorings(refactorings).zip(newOnto);
 			millis = (new Date()).getTime() - millis;
 
-			result = "{\"onto\" : \"" + newZip + "\", \"millis\" : \"" + millis + "\"}";
+			result = "{\"onto\" : \"" + newOnto + "\", \"zip\" : \"" + newZip + "\", \"millis\" : \"" + millis + "\"}";
 		} catch (OWLOntologyCreationException | IOException | OWLOntologyStorageException e) {
 			result = "failed to recommend refactorings";
+
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	/**
+	 * process the incidence of refactorings through a timeline of occurrence of
+	 * smells
+	 * 
+	 * @param ocean
+	 * @return json string containing information about the processing of the
+	 *         incidence of refactorings. Format:
+	 *         <p>
+	 *         {"csv" : "*.csv", "millis" : "9999"}
+	 *         <p>
+	 *         "csv": name of a csv file contained all processed data "millis":
+	 *         the duration of the recommendation
+	 */
+	@GET
+	@Path("/incidenceofrefactorings/{ocean}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String viewSmellsByCommitters(@PathParam("ocean") String ocean) {
+		long millis = (new Date()).getTime();
+		String result = "";
+
+		SparqlConnector sparqlConn = SparqlConnector.getInstance().init(properties);
+		try {
+			IncidenceOfRefactoringsThroughTimeExporter exporter = new IncidenceOfRefactoringsThroughTimeExporter();
+			sparqlConn.executeExporter(ocean, exporter);
+
+			millis = (new Date()).getTime() - millis;
+
+			result = "{\"csv\" : \"" + exporter.getCSVFileName() + "\", \"millis\" : \"" + millis + "\"}";
+		} catch (Exception e) {
+			result = "failed to export the incidence of refactorings";
 
 			e.printStackTrace();
 		}
