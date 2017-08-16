@@ -25,11 +25,11 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import org.semanticweb.owlapi.reasoner.structural.StructuralReasonerFactory;
 
-import br.org.resys.data.Refactoring;
-import br.org.resys.data.Smell;
-import br.org.resys.data.Template;
+import br.org.resys.en.Smells;
 import br.org.resys.rre.IRefactoring;
 import br.org.resys.rre.ITemplate;
+import br.org.resys.rre.impl.Refactoring;
+import br.org.resys.rre.impl.Template;
 
 /**
  * Connector that manipulates OSORE
@@ -65,7 +65,7 @@ public class OsoreConnector {
 	}
 
 	// pool of refactorings (refactorings per smell)
-	private Map<Smell, List<IRefactoring>> refactorings;
+	private Map<Smells, List<IRefactoring>> refactorings;
 
 	private OWLOntologyManager manager;
 	private OWLOntology osore;
@@ -88,8 +88,8 @@ public class OsoreConnector {
 		String url = "file://" + properties.getProperty("ontos.osore.path") + "/osore.owl";
 		System.out.println("Attempting to read OSORE at: " + url);
 		// initiate everything
-		refactorings = new HashMap<Smell, List<IRefactoring>>();
-		manager = OWLManager.createConcurrentOWLOntologyManager();
+		refactorings = new HashMap<Smells, List<IRefactoring>>();
+		manager = OWLManager.createOWLOntologyManager();
 		IRI osoreLocation = IRI.create(new URL(url));
 		// load osore
 		osore = manager.loadOntology(osoreLocation);
@@ -106,7 +106,7 @@ public class OsoreConnector {
 	 * is loaded from the ontology. The refactorings are hardcoded in osore as
 	 * ontological individuals. After being retrieved they are parsed into
 	 * instances of {@link IRefactoring}. Each refactoring is mapped to a
-	 * instance of {@link Smell}. The resulting mapping will link 1-smell to
+	 * instance of {@link Smells}. The resulting mapping will link 1-smell to
 	 * N-refactoring.
 	 * 
 	 * @return instance of #OsoreConnector
@@ -124,7 +124,7 @@ public class OsoreConnector {
 					// ...that are transformed into a pair of
 					// 1-smell--->N-refactorings...
 					IRefactoring refactoring = fromOWLRefactoring(owlRefactoring);
-					List<Smell> targSmells = getTargetedSmells(osore.getDataPropertyAssertionAxioms(owlRefactoring));
+					List<Smells> targSmells = getTargetedSmells(osore.getDataPropertyAssertionAxioms(owlRefactoring));
 					// ...which is added to the refactoring pool
 					addToRefactorings(targSmells, refactoring);
 				}
@@ -223,8 +223,8 @@ public class OsoreConnector {
 	 *            collection of data props of the refactoring
 	 * @return list of smells which can be mitigated by the refactoring.
 	 */
-	private List<Smell> getTargetedSmells(Set<OWLDataPropertyAssertionAxiom> dataProps) {
-		List<Smell> smells = new ArrayList<Smell>();
+	private List<Smells> getTargetedSmells(Set<OWLDataPropertyAssertionAxiom> dataProps) {
+		List<Smells> smells = new ArrayList<Smells>();
 		// from all properties of the ontological instance of the refactoring...
 		for (OWLDataPropertyAssertionAxiom prop : dataProps) {
 			// ...it must be found the one which links the refactoring to the
@@ -232,7 +232,7 @@ public class OsoreConnector {
 			if (prop.getProperty().toString().contains("#applicableTo")) {
 				// ...once a smell is found, it is added to the list of targeted
 				// smells
-				smells.add(Smell.fromOntoType(prop.getObject().getLiteral()));
+				smells.add(Smells.fromOntoType(prop.getObject().getLiteral()));
 			}
 		}
 
@@ -253,9 +253,9 @@ public class OsoreConnector {
 	 *            the refactoring that is mapped to the smells
 	 * @return
 	 */
-	private OsoreConnector addToRefactorings(List<Smell> targetedSmells, IRefactoring refactoring) {
+	private OsoreConnector addToRefactorings(List<Smells> targetedSmells, IRefactoring refactoring) {
 		// considering each smell in the list of targeted smells...
-		for (Smell smell : targetedSmells) {
+		for (Smells smell : targetedSmells) {
 			// ...if the pool already contains the smell...
 			if (refactorings.containsKey(smell)) {
 				// ...the list of refactorings is retrieved...
@@ -281,7 +281,7 @@ public class OsoreConnector {
 	 * ontological instances (individuals).
 	 * <p>
 	 * As the instances of smells are mined from ocean, they are mapped by
-	 * {@link OceanConnector} to their correspondent {@link Smell}. For each
+	 * {@link OceanConnector} to their correspondent {@link Smells}. For each
 	 * instance a list of refactorings is provided to be stored in a new
 	 * instance of ocean.
 	 * 
@@ -291,11 +291,11 @@ public class OsoreConnector {
 	 *         refactorings
 	 */
 	public Map<OWLNamedIndividual, List<IRefactoring>> recommendRefactorings(
-			Map<Smell, List<OWLNamedIndividual>> smells) {
+			Map<Smells, List<OWLNamedIndividual>> smells) {
 		Map<OWLNamedIndividual, List<IRefactoring>> refacs = new HashMap<OWLNamedIndividual, List<IRefactoring>>();
 
-		for (Entry<Smell, List<OWLNamedIndividual>> e : smells.entrySet()) {
-			Smell smell = e.getKey();
+		for (Entry<Smells, List<OWLNamedIndividual>> e : smells.entrySet()) {
+			Smells smell = e.getKey();
 
 			List<OWLNamedIndividual> smellInds = e.getValue();
 			for (OWLNamedIndividual smellInd : smellInds) {
@@ -312,7 +312,7 @@ public class OsoreConnector {
 	 * @return instance of #OsoreConnector
 	 */
 	public OsoreConnector printRefactorings() {
-		for (Entry<Smell, List<IRefactoring>> e : refactorings.entrySet()) {
+		for (Entry<Smells, List<IRefactoring>> e : refactorings.entrySet()) {
 			System.out.println(e.getKey().getLabel() + " --> " + e.getValue());
 		}
 		

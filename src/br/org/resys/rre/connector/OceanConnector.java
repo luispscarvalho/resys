@@ -4,10 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,12 +17,14 @@ import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.FileUtils;
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.formats.RDFXMLDocumentFormat;
 import org.semanticweb.owlapi.model.AddImport;
 import org.semanticweb.owlapi.model.EntityType;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLDocumentFormat;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLImportsDeclaration;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
@@ -42,9 +42,10 @@ import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import org.semanticweb.owlapi.reasoner.structural.StructuralReasonerFactory;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
-import br.org.resys.data.OntoIRI;
-import br.org.resys.data.Smell;
+import br.org.resys.en.OntosIRI;
+import br.org.resys.en.Smells;
 import br.org.resys.rre.IRefactoring;
+import br.org.resys.util.Util;
 
 /**
  * Connector that manipulates instances of ONTOCEAN
@@ -102,11 +103,11 @@ public class OceanConnector {
 		String repositoriesUrl = "file://" + outputPath + "/repositories.owl";
 		// initiate everything
 		manager = OWLManager.createConcurrentOWLOntologyManager();
-		IRI repositoriesIRI = IRI.create(OntoIRI.REPOSITORIES_IRI.getIri());
+		IRI repositoriesIRI = IRI.create(OntosIRI.REPOSITORIES_IRI.getIri());
 		IRI repositoriesLocation = IRI.create(repositoriesUrl);
-		IRI codesmellsIRI = IRI.create(OntoIRI.SMELLS_IRI.getIri());
+		IRI codesmellsIRI = IRI.create(OntosIRI.SMELLS_IRI.getIri());
 		IRI codesmellsLocation = IRI.create(codesmellsUrl);
-		IRI metricsIRI = IRI.create(OntoIRI.METRICS_IRI.getIri());
+		IRI metricsIRI = IRI.create(OntosIRI.METRICS_IRI.getIri());
 		IRI metricsLocation = IRI.create(metricsUrl);
 		// importing referenced ontologies
 		manager.getIRIMappers().add(new SimpleIRIMapper(repositoriesIRI, repositoriesLocation));
@@ -151,7 +152,7 @@ public class OceanConnector {
 	 * Load all smells from an instance of ocean
 	 * <p>
 	 * Prior to recommending refactorings, smells must be retrieved from the
-	 * ontology. As a result a mapping between each type of {@link Smell} and
+	 * ontology. As a result a mapping between each type of {@link Smells} and
 	 * respective ontological instances is created. The mapping is passed to
 	 * {@link OsoreConnector#recommendRefactorings(Map)} in order to recommend
 	 * refactorings.
@@ -159,16 +160,16 @@ public class OceanConnector {
 	 * @return mapping between smells and their ontological instances
 	 */
 	@SuppressWarnings("deprecation")
-	public Map<Smell, List<OWLNamedIndividual>> loadSmells() {
-		Map<Smell, List<OWLNamedIndividual>> smells = new HashMap<Smell, List<OWLNamedIndividual>>();
+	public Map<Smells, List<OWLNamedIndividual>> loadSmells() {
+		Map<Smells, List<OWLNamedIndividual>> smells = new HashMap<Smells, List<OWLNamedIndividual>>();
 		// create a new structural reasoner to retrieve smell classes
 		OWLReasonerFactory reasonerFactory = new StructuralReasonerFactory();
 		OWLReasoner reasoner = reasonerFactory.createNonBufferingReasoner(ocean);
 		for (OWLClass c : ocean.getClassesInSignature()) {
 			String clazz = c.getIRI().getFragment();
-			Smell smell = Smell.UNKNOWN;
+			Smells smell = Smells.UNKNOWN;
 			// if the class' type is a known smell...
-			if ((smell = Smell.fromOntoType(clazz)) != Smell.UNKNOWN) {
+			if ((smell = Smells.fromOntoType(clazz)) != Smells.UNKNOWN) {
 				// ... retrieve all of its instances...
 				NodeSet<OWLNamedIndividual> instances = reasoner.getInstances(c, false);
 				if ((instances != null) && (!instances.isEmpty())) {
@@ -211,7 +212,7 @@ public class OceanConnector {
 		OWLDataFactory factory = manager.getOWLDataFactory();
 		// add osore as a new import in ocean
 		OWLImportsDeclaration importDeclaration = factory
-				.getOWLImportsDeclaration(IRI.create(OntoIRI.OSORE_IRI.getIri()));
+				.getOWLImportsDeclaration(IRI.create(OntosIRI.OSORE_IRI.getIri()));
 		manager.applyChange(new AddImport(ocean, importDeclaration));
 		// link each instance of smell to respective refactorings
 		// add an object property (CodeSmell --- refactoredBy --->
@@ -222,12 +223,12 @@ public class OceanConnector {
 		// retrieve the new property to set up its domain and range
 		OWLObjectProperty refactoredBy = factory.getOWLObjectProperty(IRI.create("#refactoredBy"));
 		// domain
-		OWLClass codeSmellClazz = factory.getOWLClass(OntoIRI.SMELLS_IRI.getIri() + "#Codesmell");
+		OWLClass codeSmellClazz = factory.getOWLClass(OntosIRI.SMELLS_IRI.getIri() + "#Codesmell");
 		OWLObjectPropertyDomainAxiom domainAxiom = factory.getOWLObjectPropertyDomainAxiom(refactoredBy,
 				codeSmellClazz);
 		manager.addAxiom(ocean, domainAxiom);
 		// range
-		OWLClass refactoringClazz = factory.getOWLClass(OntoIRI.OSORE_IRI.getIri() + "#Refactoring");
+		OWLClass refactoringClazz = factory.getOWLClass(OntosIRI.OSORE_IRI.getIri() + "#Refactoring");
 		OWLObjectPropertyRangeAxiom rangeAxiom = factory.getOWLObjectPropertyRangeAxiom(refactoredBy, refactoringClazz);
 		manager.addAxiom(ocean, rangeAxiom);
 		// linking smells to refactorings
@@ -244,14 +245,15 @@ public class OceanConnector {
 		}
 		System.out.println("Recommending refactorings...");
 		manager.addAxioms(ocean, refactoredByAssertionAxioms);
-		// save ocean + refactorings
-		manager.saveOntology(ocean);
-		// zipping everything cuz files may grow too large)
+		// save refactorings into ocean
+		OWLDocumentFormat format = new RDFXMLDocumentFormat();
+		manager.saveOntology(ocean, format);
+		// zipping everything (ontologies may grow too large)
 		System.out.println(refactoredByAssertionAxioms.size() + " Refactorings were recommended!");
 
 		return this;
 	}
-
+	
 	/**
 	 * copy an instance of ocean from the input to the output path.
 	 * <p>
@@ -267,7 +269,7 @@ public class OceanConnector {
 	private String replicate(String ontology) throws IOException {
 		File input = new File(inputPath + "/" + ontology);
 
-		String newOnto = "ocean_" + generateUid() + ".owl";
+		String newOnto = "ocean_" + Util.generateUid() + ".owl";
 		File output = new File(outputPath + "/" + newOnto);
 
 		FileUtils.copyFile(input, output);
@@ -290,7 +292,7 @@ public class OceanConnector {
 	public String zip(String ontology) throws IOException {
 		byte[] buffer = new byte[1024];
 
-		String newZip = "ocean_" + generateUid() + ".zip";
+		String newZip = "ocean_" + Util.generateUid() + ".zip";
 
 		FileOutputStream fileStream = new FileOutputStream(outputPath + "/" + newZip);
 		ZipOutputStream zipStream = new ZipOutputStream(fileStream);
@@ -317,20 +319,6 @@ public class OceanConnector {
 		zipStream.close();
 
 		return newZip;
-	}
-
-	/**
-	 * Creates a unique id
-	 * <p>
-	 * Necessary to avoid duplication of files names.
-	 * 
-	 * @return a new unique id
-	 */
-	private String generateUid() {
-		SecureRandom random = new SecureRandom();
-		String uid = new BigInteger(130, random).toString(32);
-
-		return uid;
 	}
 
 }
