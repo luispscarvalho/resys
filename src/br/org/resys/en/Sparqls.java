@@ -22,7 +22,7 @@ public enum Sparqls {
 			"?codesmell rdf:type smells:LongMethod . \n" +
 			"?codesmell ocean:foundIn ?location . \n" +
 			"} ORDER BY DESC (?datetime)"),
-	SPARQL_INCIDENCE_REFACTORINGS_THROUGH_TIME("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
+	SPARQL_INCIDENCE_OF_REFACTORINGS("PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> \n" +
 			"PREFIX owl: <http://www.w3.org/2002/07/owl#> \n" + 
 			"PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> \n" +
 			"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n" +

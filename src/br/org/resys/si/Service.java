@@ -18,9 +18,9 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 
+import br.org.resys.adapter.connector.SparqlConnector;
+import br.org.resys.adapter.impl.IncidenceOfRefactoringsAdapter;
 import br.org.resys.en.Smells;
-import br.org.resys.export.connector.SparqlConnector;
-import br.org.resys.export.impl.IncidenceOfRefactoringsThroughTimeExporter;
 import br.org.resys.rre.IRefactoring;
 import br.org.resys.rre.connector.OceanConnector;
 import br.org.resys.rre.connector.OsoreConnector;
@@ -167,18 +167,18 @@ public class Service {
 	@GET
 	@Path("/incidenceofrefactorings/{ocean}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String viewSmellsByCommitters(@PathParam("ocean") String ocean) {
+	public String exportIncidenceOfRefactorings(@PathParam("ocean") String ocean) {
 		long millis = (new Date()).getTime();
 		String result = "";
 
 		SparqlConnector sparqlConn = SparqlConnector.getInstance().init(properties);
 		try {
-			IncidenceOfRefactoringsThroughTimeExporter exporter = new IncidenceOfRefactoringsThroughTimeExporter();
-			sparqlConn.executeExporter(ocean, exporter);
+			IncidenceOfRefactoringsAdapter adapter = new IncidenceOfRefactoringsAdapter();
+			sparqlConn.adapt(ocean, adapter);
 
 			millis = (new Date()).getTime() - millis;
 
-			result = "{\"csv\" : \"" + exporter.getCSVFileName() + "\", \"millis\" : \"" + millis + "\"}";
+			result = "{\"csv\" : \"" + adapter.getCSVFileName() + "\", \"millis\" : \"" + millis + "\"}";
 		} catch (Exception e) {
 			result = "failed to export the incidence of refactorings";
 
