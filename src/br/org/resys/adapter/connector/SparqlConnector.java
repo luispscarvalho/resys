@@ -1,4 +1,4 @@
-package br.org.resys.export.connector;
+package br.org.resys.adapter.connector;
 
 import java.io.File;
 import java.io.FileReader;
@@ -6,6 +6,7 @@ import java.util.Properties;
 
 import org.apache.jena.ontology.OntDocumentManager;
 import org.apache.jena.ontology.OntModel;
+import org.apache.jena.query.ARQ;
 import org.apache.jena.query.Query;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
@@ -13,9 +14,10 @@ import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.sparql.mgt.Explain;
 
+import br.org.resys.adapter.ISparqlProcessingAdapter;
 import br.org.resys.en.OntosIRI;
-import br.org.resys.export.ISparqlProcessingAdapter;
 
 /**
  * Connector that supports the querying of ontologies
@@ -70,7 +72,7 @@ public class SparqlConnector {
 	}
 
 	/**
-	 * Execute a SPARQL statement on a given ontology
+	 * Execute a SPARQL statement on a given ontology and adapt the output
 	 * <p>
 	 * The "ontology" parameter must be a full path to an instance of ontocean
 	 * after the smells and refactorings are processed and embedeed into it.
@@ -86,7 +88,7 @@ public class SparqlConnector {
 	 * @throws Exception
 	 * @return instance of #SparqlConnector
 	 */
-	public SparqlConnector executeExporter(String ontology, ISparqlProcessingAdapter adapter) throws Exception {
+	public SparqlConnector adapt(String ontology, ISparqlProcessingAdapter adapter) throws Exception {
 		OntModel model = ModelFactory.createOntologyModel();
 
 		OntDocumentManager docManager = model.getDocumentManager();
@@ -95,10 +97,12 @@ public class SparqlConnector {
 		docManager.addAltEntry(OntosIRI.REPOSITORIES_IRI.getIri(), "file://" + outputPath + "/repositories.owl");
 		docManager.addAltEntry(OntosIRI.OSORE_IRI.getIri(), "file://" + outputPath + "/osore.owl");
 
-		model.read(new FileReader(new File(outputPath + "/" + ontology)), "RDF/XML");
+		model.read(new FileReader(new File(outputPath + "/" + ontology)), null);
 
-		Query query = QueryFactory.create(adapter.getSparql());
+		String sparql = adapter.getSparql();
+		Query query = QueryFactory.create(sparql);
 		QueryExecution qexec = QueryExecutionFactory.create(query, model);
+		qexec.getContext().set(ARQ.symLogExec, Explain.InfoLevel.ALL);
 		ResultSet results = qexec.execSelect();
 
 		adapter.init(outputPath);

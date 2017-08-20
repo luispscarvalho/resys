@@ -1,9 +1,9 @@
-package br.org.resys.export;
+package br.org.resys.adapter;
 
 import org.apache.jena.query.QuerySolution;
 
+import br.org.resys.adapter.connector.SparqlConnector;
 import br.org.resys.en.Sparqls;
-import br.org.resys.export.connector.SparqlConnector;
 
 /**
  * Adapter of the execution of sparql statements
