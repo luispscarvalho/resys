@@ -1,4 +1,4 @@
-package br.org.resys.export.impl;
+package br.org.resys.adapter.impl;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,8 +14,8 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import com.google.common.collect.Table.Cell;
 
+import br.org.resys.adapter.ISparqlProcessingAdapter;
 import br.org.resys.en.Sparqls;
-import br.org.resys.export.ISparqlProcessingAdapter;
 import br.org.resys.util.Util;
 
 /**
@@ -27,21 +27,24 @@ import br.org.resys.util.Util;
  * 
  * @author Luis Paulo
  */
-public class IncidenceOfRefactoringsThroughTimeExporter implements ISparqlProcessingAdapter {
+public class IncidenceOfRefactoringsAdapter implements ISparqlProcessingAdapter {
 
-	private Table<Date, String, Integer> incidenceTable = HashBasedTable.create();
-	private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
+	private Table<Date, String, Integer> incidenceTable;
+	private DateFormat dateFormat;
 
 	private BufferedWriter csvWriter;
 	private String csvFileName;
 
 	@Override
 	public String getSparql() {
-		return Sparqls.SPARQL_INCIDENCE_REFACTORINGS_THROUGH_TIME.getStatement();
+		return Sparqls.SPARQL_INCIDENCE_OF_REFACTORINGS.getStatement();
 	}
 
 	@Override
 	public ISparqlProcessingAdapter init(String outputPath) throws Exception {
+		incidenceTable = HashBasedTable.create();
+		dateFormat = new SimpleDateFormat("yyyy-MM");
+
 		csvFileName = "incidence_" + Util.generateUid() + ".csv";
 
 		File fout = new File(outputPath + "/" + csvFileName);
@@ -49,14 +52,14 @@ public class IncidenceOfRefactoringsThroughTimeExporter implements ISparqlProces
 
 		csvWriter = new BufferedWriter(new OutputStreamWriter(fos));
 		csvWriter.write("date,refactoring,qt");
-
+		
 		return this;
 	}
 
 	@Override
-	public ISparqlProcessingAdapter processing(QuerySolution result) throws Exception {
-		Date datetime = dateFormat.parse(result.getLiteral("datetime").getString());
-		String refactoring = result.getResource("refactoring").getLocalName();
+	public ISparqlProcessingAdapter processing(QuerySolution row) throws Exception {
+		Date datetime = dateFormat.parse(row.getLiteral("datetime").getString());
+		String refactoring = row.getResource("refactoring").getLocalName();
 
 		if (incidenceTable.contains(datetime, refactoring)) {
 			Integer qt = incidenceTable.get(datetime, refactoring) + 1;
