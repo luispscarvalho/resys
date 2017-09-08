@@ -76,7 +76,7 @@ public class OsoreConnector {
 	 *            props to configure osore's path+file.
 	 * @return instance of #OsoreConnector
 	 * @throws MalformedURLException
-	 *             if urls are malformed and ontologies cannot be found
+	 *             if urls are malformed and ontologies cannot be found.
 	 */
 	public OsoreConnector init(Properties properties) throws MalformedURLException, OWLOntologyCreationException {
 		// where is osore?

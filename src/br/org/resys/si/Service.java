@@ -3,6 +3,7 @@ package br.org.resys.si;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -18,10 +19,13 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 
+import com.google.common.collect.Table;
+
 import br.org.resys.adapter.connector.SparqlConnector;
 import br.org.resys.adapter.impl.IncidenceOfRefactoringsAdapter;
 import br.org.resys.en.Smells;
 import br.org.resys.rre.IRefactoring;
+import br.org.resys.rre.connector.ECCOBAConnector;
 import br.org.resys.rre.connector.OceanConnector;
 import br.org.resys.rre.connector.OsoreConnector;
 
@@ -93,7 +97,7 @@ public class Service {
 	}
 
 	/**
-	 * recommend refactorings for a sample ontology
+	 * Recommend refactorings for a sample ontology.
 	 * 
 	 * @return json string containing information about the recommendation
 	 *         (further details in {@link #recommend(String)})
@@ -106,7 +110,7 @@ public class Service {
 	}
 
 	/**
-	 * recommend refactorings for a given ontology
+	 * Recommend refactorings for a given ontology.
 	 * 
 	 * @param ocean
 	 *            instance of ocean previously uploaded
@@ -127,14 +131,55 @@ public class Service {
 	@Path("/recommend/{ocean}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String recommend(@PathParam("ocean") String ocean) {
+		return recommend(ocean, null);
+	}
+
+	/**
+	 * Recommend refactorings for a given ontology, but only for the smells
+	 * introduced by commits that correlate significantly with development
+	 * effort.
+	 * <p>
+	 * It is necessary to provide an instance of ocean and a dataset of
+	 * correlations produced by ECCOBA. Instructions about how to use ECCOBA can
+	 * be found at: https://github.com/luispscarvalho/der_codesmells/wiki.
+	 * 
+	 * @param ocean
+	 *          instance of ocean previously uploaded.
+	 * @param correlations
+	 * 			a dataset of correlations created by ECCOBA.         
+	 * @return json string containing information about the recommendation.
+	 *         Format:
+	 *         <p>
+	 *         {"onto" : "*.zip", "millis" : "9999"}
+	 *         <p>
+	 *         "onto": name of a zip file containing:
+	 *         <ul>
+	 *         <li>a new instance of ocean with embedded refactoring
+	 *         recommendations</li>
+	 *         <li>all imported ontologies</li>
+	 *         </ul>
+	 *         "millis": the duration of the recommendation
+	 */
+	@GET
+	@Path("/recommend/byeffortcorrelation/{ocean}/{correlations}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String recommend(@PathParam("ocean") String ocean, @PathParam("correlations") String correlations) {
 		long millis = (new Date()).getTime();
 		String result = "";
 
 		try {
 			OceanConnector oceanConnector = OceanConnector.getInstance().init(properties);
-
 			String newOnto = oceanConnector.loadAndReplicate(ocean);
-			Map<Smells, List<OWLNamedIndividual>> smells = oceanConnector.loadSmells();
+
+			Map<Smells, List<OWLNamedIndividual>> smells = null;
+			if (correlations != null) {
+				ECCOBAConnector eccobaConnector = ECCOBAConnector.getInstance().init(properties);
+				Table<Date, String, Double> correlationsByDateAndCommit = eccobaConnector.loadCorrelations(correlations)
+						.getCorrelationsByDateAndCommit();
+				smells = oceanConnector.loadSmells(correlationsByDateAndCommit);
+			} else {
+				smells = oceanConnector.loadSmells();
+			}
 			Map<OWLNamedIndividual, List<IRefactoring>> refactorings = OsoreConnector.getInstance()
 					.recommendRefactorings(smells);
 
@@ -142,7 +187,7 @@ public class Service {
 			millis = (new Date()).getTime() - millis;
 
 			result = "{\"onto\" : \"" + newOnto + "\", \"zip\" : \"" + newZip + "\", \"millis\" : \"" + millis + "\"}";
-		} catch (OWLOntologyCreationException | IOException | OWLOntologyStorageException e) {
+		} catch (OWLOntologyCreationException | IOException | OWLOntologyStorageException | ParseException e) {
 			result = "failed to recommend refactorings";
 
 			e.printStackTrace();
@@ -156,8 +201,8 @@ public class Service {
 	 * smells
 	 * 
 	 * @param ocean
-	 * @return json string containing information about the processing of the
-	 *         incidence of refactorings. Format:
+	 * @return json string containing information about the incidence of
+	 *         refactorings. Format:
 	 *         <p>
 	 *         {"csv" : "*.csv", "millis" : "9999"}
 	 *         <p>
@@ -174,6 +219,8 @@ public class Service {
 		SparqlConnector sparqlConn = SparqlConnector.getInstance().init(properties);
 		try {
 			IncidenceOfRefactoringsAdapter adapter = new IncidenceOfRefactoringsAdapter();
+			adapter.init(properties);
+
 			sparqlConn.adapt(ocean, adapter);
 
 			millis = (new Date()).getTime() - millis;

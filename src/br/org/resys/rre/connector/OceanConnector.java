@@ -7,11 +7,15 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
+import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -23,6 +27,7 @@ import org.semanticweb.owlapi.model.EntityType;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDocumentFormat;
 import org.semanticweb.owlapi.model.OWLEntity;
@@ -40,7 +45,10 @@ import org.semanticweb.owlapi.reasoner.NodeSet;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.reasoner.OWLReasonerFactory;
 import org.semanticweb.owlapi.reasoner.structural.StructuralReasonerFactory;
+import org.semanticweb.owlapi.search.EntitySearcher;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
+
+import com.google.common.collect.Table;
 
 import br.org.resys.en.OntosIRI;
 import br.org.resys.en.Smells;
@@ -169,12 +177,77 @@ public class OceanConnector {
 				NodeSet<OWLNamedIndividual> instances = reasoner.getInstances(c, false);
 				if ((instances != null) && (!instances.isEmpty())) {
 					List<OWLNamedIndividual> smellInstances = new ArrayList<OWLNamedIndividual>();
-					for (OWLNamedIndividual instance : instances.getFlattened()) {
-						smellInstances.add(instance);
+					for (OWLNamedIndividual owlSmell : instances.getFlattened()) {
+						smellInstances.add(owlSmell);
 					}
-					System.out.println("Found " + smellInstances.size() + " instances of " + smell.getLabel());
 					// ... and add them to the mapping
 					smells.put(smell, smellInstances);
+				}
+			}
+		}
+
+		return smells;
+	}
+
+	/**
+	 * Load smells from an instance of ocean, except that smells must have been
+	 * introduced by commits that have correlated significantly with effort
+	 * <p>
+	 * Prior to recommending refactorings, smells must be retrieved from the
+	 * ontology. As a result a mapping between each type of {@link Smells} and
+	 * respective ontological instances is created. The mapping is passed to
+	 * {@link OsoreConnector#recommendRefactorings(Map)} in order to recommend
+	 * refactorings.
+	 * <p>
+	 * Not all instances of code smell will be taken in consideration. Only
+	 * those that has been introduced by a commit that correlates in time with a
+	 * period of high effort. It takes a table of correlations (DATE x COMMITS)
+	 * to filter the smells. The table is provided by the input of a
+	 * ECCOBA-generated csv file in {@link ECCOBAConnector}.
+	 * 
+	 * @param correlationsByDateAndCommits
+	 *            a table representing the correlated commits through time
+	 * @return mapping between smells and their ontological instances
+	 */
+	@SuppressWarnings("deprecation")
+	public Map<Smells, List<OWLNamedIndividual>> loadSmells(Table<Date, String, Double> correlationsByDateAndCommits) {
+		Map<Smells, List<OWLNamedIndividual>> smells = new HashMap<Smells, List<OWLNamedIndividual>>();
+		// create a new structural reasoner to retrieve commit classes
+		OWLReasonerFactory reasonerFactory = new StructuralReasonerFactory();
+		OWLReasoner reasoner = reasonerFactory.createNonBufferingReasoner(ocean);
+		for (OWLClass c : ocean.getClassesInSignature()) {
+			String clazz = c.getIRI().getFragment();
+			if (clazz.equals("Commit")) {
+				NodeSet<OWLNamedIndividual> commits = reasoner.getInstances(c, false);
+				// after retrieving a commit class...
+				for (OWLNamedIndividual owlCommit : commits.getFlattened()) {
+					String commitId = owlCommit.getIRI().getFragment();
+					// ... verify if it correlates highly with effort...
+					if (correlationsByDateAndCommits.containsColumn(commitId)) {
+						// ...if so, extract all props...
+						Set<OWLObjectPropertyAssertionAxiom> objProps = ocean
+								.getObjectPropertyAssertionAxioms(owlCommit);
+						for (OWLObjectPropertyAssertionAxiom prop : objProps) {
+							// ...to find instances of code smell
+							if (prop.getProperty().toString().contains("#hasIntroduced")) {
+								OWLNamedIndividual owlSmell = prop.getObject().asOWLNamedIndividual();
+								Stream<OWLClassExpression> expressions = EntitySearcher.getTypes(owlSmell, ocean);
+								for (Iterator<OWLClassExpression> i = expressions.iterator(); i.hasNext();) {
+									OWLClassExpression classExpression = i.next();
+									Smells smell = Smells.UNKNOWN;
+									// if the type is a known smell...
+									if ((smell = Smells.fromOntoType(
+											classExpression.asOWLClass().getIRI().getFragment())) != Smells.UNKNOWN) {
+										// ... it is added to the map
+										if (!smells.containsKey(smell)) {
+											smells.put(smell, new ArrayList<OWLNamedIndividual>());
+										}
+										smells.get(smell).add(owlSmell);
+									}
+								}
+							}
+						}
+					}
 				}
 			}
 		}
@@ -248,7 +321,7 @@ public class OceanConnector {
 
 		return this;
 	}
-	
+
 	/**
 	 * copy an instance of ocean from the input to the output path.
 	 * <p>
