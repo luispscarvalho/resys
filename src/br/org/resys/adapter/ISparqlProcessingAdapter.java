@@ -1,5 +1,7 @@
 package br.org.resys.adapter;
 
+import java.util.Properties;
+
 import org.apache.jena.query.QuerySolution;
 
 import br.org.resys.adapter.connector.SparqlConnector;
@@ -32,12 +34,12 @@ public interface ISparqlProcessingAdapter {
 	 * <p>
 	 * It must be called first, prior to any further processing
 	 * 
-	 * @param outputPath
-	 *            the output path where targeted ontologies can be found
+	 * @param properties
+	 *            props to configure input/output path
 	 * @return instance of #ISparqlProcessingAdapter
 	 * @throws Exception
 	 */
-	public ISparqlProcessingAdapter init(String outputPath) throws Exception;
+	public ISparqlProcessingAdapter init(Properties properties) throws Exception;
 
 	/**
 	 * Process each of every row obtained from the ontology
