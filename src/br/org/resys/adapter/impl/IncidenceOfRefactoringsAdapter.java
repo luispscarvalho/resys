@@ -7,6 +7,7 @@ import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 
 import org.apache.jena.query.QuerySolution;
 
@@ -41,13 +42,13 @@ public class IncidenceOfRefactoringsAdapter implements ISparqlProcessingAdapter 
 	}
 
 	@Override
-	public ISparqlProcessingAdapter init(String outputPath) throws Exception {
+	public ISparqlProcessingAdapter init(Properties properties) throws Exception {
 		incidenceTable = HashBasedTable.create();
 		dateFormat = new SimpleDateFormat("yyyy-MM");
 
 		csvFileName = "incidence_" + Util.generateUid() + ".csv";
 
-		File fout = new File(outputPath + "/" + csvFileName);
+		File fout = new File(properties.getProperty("csv.output.path") + "/" + csvFileName);
 		FileOutputStream fos = new FileOutputStream(fout);
 
 		csvWriter = new BufferedWriter(new OutputStreamWriter(fos));
