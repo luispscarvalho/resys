@@ -105,7 +105,6 @@ public class SparqlConnector {
 		qexec.getContext().set(ARQ.symLogExec, Explain.InfoLevel.ALL);
 		ResultSet results = qexec.execSelect();
 
-		adapter.init(outputPath);
 		while (results.hasNext()) {
 			QuerySolution result = results.nextSolution();
 
