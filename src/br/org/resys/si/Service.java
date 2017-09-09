@@ -131,7 +131,7 @@ public class Service {
 	@Path("/recommend/{ocean}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String recommend(@PathParam("ocean") String ocean) {
-		return recommend(ocean, null);
+		return recommend(ocean, null, 0);
 	}
 
 	/**
@@ -144,9 +144,11 @@ public class Service {
 	 * be found at: https://github.com/luispscarvalho/der_codesmells/wiki.
 	 * 
 	 * @param ocean
-	 *          instance of ocean previously uploaded.
-	 * @param correlations
-	 * 			a dataset of correlations created by ECCOBA.         
+	 *            instance of ocean previously uploaded.
+	 * @param eccoba.dataset
+	 *            a dataset of correlations created by ECCOBA.
+	 * @param minimal.correlation
+	 *            the minimal correlation used to generate the dataset
 	 * @return json string containing information about the recommendation.
 	 *         Format:
 	 *         <p>
@@ -161,9 +163,10 @@ public class Service {
 	 *         "millis": the duration of the recommendation
 	 */
 	@GET
-	@Path("/recommend/byeffortcorrelation/{ocean}/{correlations}")
+	@Path("/recommend/byeffortcorrelation/{ocean}/{eccoba.dataset}/{minimal.correlation}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String recommend(@PathParam("ocean") String ocean, @PathParam("correlations") String correlations) {
+	public String recommend(@PathParam("ocean") String ocean, @PathParam("eccoba.dataset") String dataset,
+			@PathParam("minimal.correlation") double minimalCorrelation) {
 		long millis = (new Date()).getTime();
 		String result = "";
 
@@ -171,19 +174,22 @@ public class Service {
 			OceanConnector oceanConnector = OceanConnector.getInstance().init(properties);
 			String newOnto = oceanConnector.loadAndReplicate(ocean);
 
+			oceanConnector.prepareRecommendation();
+			
 			Map<Smells, List<OWLNamedIndividual>> smells = null;
-			if (correlations != null) {
+			if (dataset != null) {
 				ECCOBAConnector eccobaConnector = ECCOBAConnector.getInstance().init(properties);
-				Table<Date, String, Double> correlationsByDateAndCommit = eccobaConnector.loadCorrelations(correlations)
+				Table<Date, String, Double> correlationsByDateAndCommit = eccobaConnector.loadCorrelations(dataset)
 						.getCorrelationsByDateAndCommit();
-				smells = oceanConnector.loadSmells(correlationsByDateAndCommit);
+				smells = oceanConnector.addEffortContext(minimalCorrelation).loadSmells(correlationsByDateAndCommit);
 			} else {
 				smells = oceanConnector.loadSmells();
 			}
+
 			Map<OWLNamedIndividual, List<IRefactoring>> refactorings = OsoreConnector.getInstance()
 					.recommendRefactorings(smells);
-
 			String newZip = oceanConnector.saveRefactorings(refactorings).zip(newOnto);
+
 			millis = (new Date()).getTime() - millis;
 
 			result = "{\"onto\" : \"" + newOnto + "\", \"zip\" : \"" + newZip + "\", \"millis\" : \"" + millis + "\"}";

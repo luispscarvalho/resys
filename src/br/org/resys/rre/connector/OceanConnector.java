@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -27,8 +28,11 @@ import org.semanticweb.owlapi.model.EntityType;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLDataPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLDocumentFormat;
 import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLImportsDeclaration;
@@ -80,6 +84,12 @@ public class OceanConnector {
 
 	private OWLOntologyManager manager;
 	private OWLOntology ocean;
+	private OWLDataFactory factory;
+
+	private OWLNamedIndividual recommendationInd;
+	private OWLObjectProperty refactoredByProp;
+	private OWLObjectProperty recommendedForProp;
+
 	private String inputPath, outputPath;
 
 	/**
@@ -149,6 +159,25 @@ public class OceanConnector {
 		ocean = manager.loadOntology(oceanLocation);
 
 		return newOnto;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public OceanConnector prepareRecommendation() {
+		factory = manager.getOWLDataFactory();
+		// create a new recommendation class
+		recommendationInd = addRecommendation();
+		// link each instance of smell to respective refactorings
+		// add an object property (CodeSmell --- refactoredBy --->
+		// Refactoring)
+		refactoredByProp = addRefactoredByProperty();
+		// and to recommendation (Recommendation --- hasRecommendedFor --->
+		// CodeSmell)
+		recommendedForProp = addHasRecommendedForProperty();
+
+		return this;
 	}
 
 	/**
@@ -256,6 +285,43 @@ public class OceanConnector {
 	}
 
 	/**
+	 * Associate the recommendation with a effort context
+	 * <p>
+	 * The context is based on the correlation between the evolution of effort
+	 * and the incidence of codesmells as calculated by ECCOBA. As a result, if
+	 * a ECCOBA's dataset is provided, a new object property links Effort and
+	 * recommendation individuals:
+	 * <p>
+	 * Recommendation --> contextualizedBy --> Effort
+	 * 
+	 * @param minimalCorrelation
+	 *            the minimal value used as threshold to calculate the
+	 *            correlation
+	 * @return instance of #OceanConnector
+	 */
+	public OceanConnector addEffortContext(double minimalCorrelation) {
+		// create a new effort contextualization class
+		OWLClass effortClazz = factory.getOWLClass(OntosIRI.OSORE_IRI.getIri() + "#Effort");
+		OWLNamedIndividual effortInd = factory.getOWLNamedIndividual(Util.generateUid(),
+				OntosIRI.OSORE_IRI.getPrefix());
+		OWLClassAssertionAxiom contextAssertion = factory.getOWLClassAssertionAxiom(effortClazz, effortInd);
+		manager.addAxiom(ocean, contextAssertion);
+		// set correlation prop value
+		OWLDataProperty correlationValue = factory.getOWLDataProperty("correlation", OntosIRI.OSORE_IRI.getPrefix());
+		OWLDataPropertyAssertionAxiom dateValueAssertion = factory.getOWLDataPropertyAssertionAxiom(correlationValue,
+				effortInd, minimalCorrelation);
+		manager.addAxiom(ocean, dateValueAssertion);
+		// link Context to Recommendation
+		OWLObjectProperty contextualizedByProp = factory
+				.getOWLObjectProperty(IRI.create(OntosIRI.OSORE_IRI.getIri() + "#contextualizedBy"));
+		OWLObjectPropertyAssertionAxiom contextualizedByAssertion = factory
+				.getOWLObjectPropertyAssertionAxiom(contextualizedByProp, recommendationInd, effortInd);
+		manager.addAxiom(ocean, contextualizedByAssertion);
+
+		return this;
+	}
+
+	/**
 	 * Bind and save all recommended refactorings to the smells in the
 	 * ontology's physical file
 	 * <p>
@@ -277,19 +343,81 @@ public class OceanConnector {
 	@SuppressWarnings("deprecation")
 	public OceanConnector saveRefactorings(Map<OWLNamedIndividual, List<IRefactoring>> refactorings)
 			throws OWLOntologyStorageException {
-		OWLDataFactory factory = manager.getOWLDataFactory();
 		// add osore as a new import in ocean
 		OWLImportsDeclaration importDeclaration = factory
 				.getOWLImportsDeclaration(IRI.create(OntosIRI.OSORE_IRI.getIri()));
 		manager.applyChange(new AddImport(ocean, importDeclaration));
-		// link each instance of smell to respective refactorings
-		// add an object property (CodeSmell --- refactoredBy --->
-		// Refactoring)
-		OWLEntity entity = factory.getOWLEntity(EntityType.OBJECT_PROPERTY, IRI.create("#refactoredBy"));
+
+		// linking the smells...
+		int numOfRefactorings = 0;
+		List<OWLObjectPropertyAssertionAxiom> objPropsAssertionAxioms = new ArrayList<OWLObjectPropertyAssertionAxiom>();
+		for (Entry<OWLNamedIndividual, List<IRefactoring>> e : refactorings.entrySet()) {
+			List<IRefactoring> refacs = e.getValue();
+			if (refacs != null) {
+				// ... to refactorings
+				for (IRefactoring refactoring : refacs) {
+					OWLObjectPropertyAssertionAxiom refactoredByAssertion = factory.getOWLObjectPropertyAssertionAxiom(
+							refactoredByProp, e.getKey(), refactoring.getOwlRefactoring());
+					objPropsAssertionAxioms.add(refactoredByAssertion);
+
+					numOfRefactorings++;
+				}
+				// ... to recommendation
+				OWLObjectPropertyAssertionAxiom recommendedForAssertion = factory
+						.getOWLObjectPropertyAssertionAxiom(recommendedForProp, recommendationInd, e.getKey());
+				objPropsAssertionAxioms.add(recommendedForAssertion);
+			}
+		}
+		System.out.println("Recommending refactorings...");
+		manager.addAxioms(ocean, objPropsAssertionAxioms);
+		// save refactorings in ocean
+		OWLDocumentFormat format = new RDFXMLDocumentFormat();
+		manager.saveOntology(ocean, format);
+		System.out.println(numOfRefactorings + " refactorings recommended!");
+
+		return this;
+	}
+
+	/**
+	 * Create a new Recommendation individual
+	 * 
+	 * @return an ontological instance of a new Recommendation
+	 */
+	private OWLNamedIndividual addRecommendation() {
+		// create a new recommendation class
+		OWLClass recommendationClazz = factory.getOWLClass(OntosIRI.OSORE_IRI.getIri() + "#Recommendation");
+		OWLNamedIndividual recommendationInd = factory.getOWLNamedIndividual(Util.generateUid(),
+				OntosIRI.OSORE_IRI.getPrefix());
+		OWLClassAssertionAxiom recommendationAssertion = factory.getOWLClassAssertionAxiom(recommendationClazz,
+				recommendationInd);
+		manager.addAxiom(ocean, recommendationAssertion);
+		// add the date of the recommendation
+		OWLDataProperty dateValue = factory.getOWLDataProperty("datetime", OntosIRI.OSORE_IRI.getPrefix());
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		String recommendationDate = dateFormat.format(new Date());
+		OWLDataPropertyAssertionAxiom dateValueAssertion = factory.getOWLDataPropertyAssertionAxiom(dateValue,
+				recommendationInd, recommendationDate);
+		manager.addAxiom(ocean, dateValueAssertion);
+
+		return recommendationInd;
+	}
+
+	/**
+	 * Create a object property to link Codesmell and Refactoring
+	 * <p>
+	 * The relationship follows the pattern: Codesmell --> refactoredBy -->
+	 * Refactoring
+	 * 
+	 * @return an ontological instance of the property
+	 */
+	private OWLObjectProperty addRefactoredByProperty() {
+		OWLEntity entity = factory.getOWLEntity(EntityType.OBJECT_PROPERTY,
+				IRI.create(OntosIRI.OCEAN_IRI.getIri() + "#refactoredBy"));
 		OWLAxiom objPropAxiom = factory.getOWLDeclarationAxiom(entity);
 		manager.addAxiom(ocean, objPropAxiom);
-		// retrieve the new property to set up its domain and range
-		OWLObjectProperty refactoredBy = factory.getOWLObjectProperty(IRI.create("#refactoredBy"));
+		// retrieve the new property to set its domain and range
+		OWLObjectProperty refactoredBy = factory
+				.getOWLObjectProperty(IRI.create(OntosIRI.OCEAN_IRI.getIri() + "#refactoredBy"));
 		// domain
 		OWLClass codeSmellClazz = factory.getOWLClass(OntosIRI.SMELLS_IRI.getIri() + "#Codesmell");
 		OWLObjectPropertyDomainAxiom domainAxiom = factory.getOWLObjectPropertyDomainAxiom(refactoredBy,
@@ -299,27 +427,37 @@ public class OceanConnector {
 		OWLClass refactoringClazz = factory.getOWLClass(OntosIRI.OSORE_IRI.getIri() + "#Refactoring");
 		OWLObjectPropertyRangeAxiom rangeAxiom = factory.getOWLObjectPropertyRangeAxiom(refactoredBy, refactoringClazz);
 		manager.addAxiom(ocean, rangeAxiom);
-		// linking smells to refactorings
-		List<OWLObjectPropertyAssertionAxiom> refactoredByAssertionAxioms = new ArrayList<OWLObjectPropertyAssertionAxiom>();
-		for (Entry<OWLNamedIndividual, List<IRefactoring>> e : refactorings.entrySet()) {
-			List<IRefactoring> refacs = e.getValue();
-			if (refacs != null) {
-				for (IRefactoring refactoring : refacs) {
-					OWLObjectPropertyAssertionAxiom refactoredByAssertion = factory.getOWLObjectPropertyAssertionAxiom(
-							refactoredBy, e.getKey(), refactoring.getOwlRefactoring());
-					refactoredByAssertionAxioms.add(refactoredByAssertion);
-				}
-			}
-		}
-		System.out.println("Recommending refactorings...");
-		manager.addAxioms(ocean, refactoredByAssertionAxioms);
-		// save refactorings into ocean
-		OWLDocumentFormat format = new RDFXMLDocumentFormat();
-		manager.saveOntology(ocean, format);
-		// zipping everything (ontologies may grow too large)
-		System.out.println(refactoredByAssertionAxioms.size() + " Refactorings were recommended!");
 
-		return this;
+		return refactoredBy;
+	}
+
+	/**
+	 * Create a object property to link Recommendation and Codesmell
+	 * <p>
+	 * The relationship follows the pattern: Recommendation --> hasRecommendedFor -->
+	 * Codesmell
+	 * 
+	 * @return an ontological instance of the property
+	 */
+	private OWLObjectProperty addHasRecommendedForProperty() {
+		OWLEntity entity = factory.getOWLEntity(EntityType.OBJECT_PROPERTY,
+				IRI.create(OntosIRI.OCEAN_IRI.getIri() + "#hasRecommendedFor"));
+		OWLAxiom objPropAxiom = factory.getOWLDeclarationAxiom(entity);
+		manager.addAxiom(ocean, objPropAxiom);
+		// retrieve the new property to set its domain and range
+		OWLObjectProperty recommendedFor = factory
+				.getOWLObjectProperty(IRI.create(OntosIRI.OCEAN_IRI.getIri() + "#hasRecommendedFor"));
+		// domain
+		OWLClass recommendationClazz = factory.getOWLClass(OntosIRI.OSORE_IRI.getIri() + "#Recommendation");
+		OWLObjectPropertyDomainAxiom domainAxiom = factory.getOWLObjectPropertyDomainAxiom(recommendedFor,
+				recommendationClazz);
+		manager.addAxiom(ocean, domainAxiom);
+		// range
+		OWLClass codeSmellClazz = factory.getOWLClass(OntosIRI.SMELLS_IRI.getIri() + "#Codesmell");
+		OWLObjectPropertyRangeAxiom rangeAxiom = factory.getOWLObjectPropertyRangeAxiom(recommendedFor, codeSmellClazz);
+		manager.addAxiom(ocean, rangeAxiom);
+
+		return recommendedFor;
 	}
 
 	/**

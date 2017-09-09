@@ -22,10 +22,22 @@
     <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
     <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
     <Declaration>
+        <Class IRI="#Context"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Effort"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Recommendation"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#Refactoring"/>
     </Declaration>
     <Declaration>
         <Class IRI="#Template"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#contextualizedBy"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#hasTemplate"/>
@@ -38,6 +50,12 @@
     </Declaration>
     <Declaration>
         <DataProperty IRI="#before"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#correlation"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#datetime"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#CBU"/>
@@ -177,6 +195,10 @@
     <Declaration>
         <NamedIndividual IRI="#RTWQTemplate"/>
     </Declaration>
+    <SubClassOf>
+        <Class IRI="#Effort"/>
+        <Class IRI="#Context"/>
+    </SubClassOf>
     <ClassAssertion>
         <Class IRI="#Refactoring"/>
         <NamedIndividual IRI="#CBU"/>
@@ -1485,9 +1507,17 @@ else
   return basePrice * 0.98;</Literal>
     </DataPropertyAssertion>
     <ObjectPropertyDomain>
+        <ObjectProperty IRI="#contextualizedBy"/>
+        <Class IRI="#Recommendation"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
         <ObjectProperty IRI="#hasTemplate"/>
         <Class IRI="#Refactoring"/>
     </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#contextualizedBy"/>
+        <Class IRI="#Context"/>
+    </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#hasTemplate"/>
         <Class IRI="#Template"/>
@@ -1505,6 +1535,10 @@ else
         <DataProperty abbreviatedIRI="owl:topDataProperty"/>
     </SubDataPropertyOf>
     <SubDataPropertyOf>
+        <DataProperty IRI="#correlation"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
         <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
         <DataProperty abbreviatedIRI="owl:topDataProperty"/>
     </SubDataPropertyOf>
@@ -1525,6 +1559,14 @@ else
         <Class IRI="#Template"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
+        <DataProperty IRI="#correlation"/>
+        <Class IRI="#Effort"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#datetime"/>
+        <Class IRI="#Recommendation"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
         <DataProperty IRI="http://www.semanticweb.org/root/ontologies/2016/1/metrics#description"/>
         <Class IRI="#Refactoring"/>
     </DataPropertyDomain>
@@ -1542,6 +1584,14 @@ else
     </DataPropertyRange>
     <DataPropertyRange>
         <DataProperty IRI="#before"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#correlation"/>
+        <Datatype abbreviatedIRI="xsd:double"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#datetime"/>
         <Datatype abbreviatedIRI="xsd:string"/>
     </DataPropertyRange>
     <DataPropertyRange>
