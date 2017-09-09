@@ -39,6 +39,7 @@ import br.org.resys.en.OntosIRI;
  * @author Luis Paulo
  */
 public class SparqlConnector {
+	private static final int TIMEOUT = 30000; 
 	private static SparqlConnector instance;
 
 	/**
@@ -100,14 +101,15 @@ public class SparqlConnector {
 		model.read(new FileReader(new File(outputPath + "/" + ontology)), null);
 
 		String sparql = adapter.getSparql();
+		
 		Query query = QueryFactory.create(sparql);
 		QueryExecution qexec = QueryExecutionFactory.create(query, model);
-		qexec.getContext().set(ARQ.symLogExec, Explain.InfoLevel.ALL);
+		qexec.getContext().set(ARQ.strictSPARQL, Explain.InfoLevel.ALL);
+		qexec.setTimeout(TIMEOUT);
 		ResultSet results = qexec.execSelect();
-
+		
 		while (results.hasNext()) {
 			QuerySolution result = results.nextSolution();
-
 			adapter.processing(result);
 		}
 		adapter.conclude();

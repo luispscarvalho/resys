@@ -22,7 +22,9 @@ import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import com.google.common.collect.Table;
 
 import br.org.resys.adapter.connector.SparqlConnector;
+import br.org.resys.adapter.impl.EffortContextualizedIncidenceOfRefactorings;
 import br.org.resys.adapter.impl.IncidenceOfRefactoringsAdapter;
+import br.org.resys.adapter.impl.RefactoringsByCommittersAdapter;
 import br.org.resys.en.Smells;
 import br.org.resys.rre.IRefactoring;
 import br.org.resys.rre.connector.ECCOBAConnector;
@@ -175,7 +177,7 @@ public class Service {
 			String newOnto = oceanConnector.loadAndReplicate(ocean);
 
 			oceanConnector.prepareRecommendation();
-			
+
 			Map<Smells, List<OWLNamedIndividual>> smells = null;
 			if (dataset != null) {
 				ECCOBAConnector eccobaConnector = ECCOBAConnector.getInstance().init(properties);
@@ -203,8 +205,51 @@ public class Service {
 	}
 
 	/**
-	 * process the incidence of refactorings through a timeline of occurrence of
+	 * Process the incidence of refactorings introduced in the source code by
+	 * the project's committers
+	 * <p>
+	 * As a result, a csv file is produced
+	 * 
+	 * @param ocean
+	 * @return json string containing information about the incidence of
+	 *         refactorings. Format:
+	 *         <p>
+	 *         {"csv" : "*.csv", "millis" : "9999"}
+	 *         <p>
+	 *         "csv": name of a csv file contained all processed data "millis":
+	 *         the duration of the recommendation
+	 */
+	@GET
+	@Path("/refactoringsbycommitters/{ocean}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String exportRefactoringsByCommitters(@PathParam("ocean") String ocean) {
+		long millis = (new Date()).getTime();
+		String result = "";
+
+		SparqlConnector sparqlConn = SparqlConnector.getInstance().init(properties);
+		try {
+			RefactoringsByCommittersAdapter adapter = new RefactoringsByCommittersAdapter();
+			adapter.init(properties);
+
+			sparqlConn.adapt(ocean, adapter);
+
+			millis = (new Date()).getTime() - millis;
+
+			result = "{\"csv\" : \"" + adapter.getCSVFileName() + "\", \"millis\" : \"" + millis + "\"}";
+		} catch (Exception e) {
+			result = "failed to export the refactorings by committers";
+
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	/**
+	 * Process the incidence of refactorings through a timeline of occurrence of
 	 * smells
+	 * <p>
+	 * As a result, a csv file is produced
 	 * 
 	 * @param ocean
 	 * @return json string containing information about the incidence of
@@ -233,7 +278,50 @@ public class Service {
 
 			result = "{\"csv\" : \"" + adapter.getCSVFileName() + "\", \"millis\" : \"" + millis + "\"}";
 		} catch (Exception e) {
-			result = "failed to export the incidence of refactorings";
+			result = "unable to export the incidence of refactorings";
+
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
+	/**
+	 * Process the incidence of refactorings through a timeline of occurrence of
+	 * smells, except that only the refactorings recommended for smells that
+	 * correlated with development effort are taken in consideration
+	 * <p>
+	 * As a result, a csv file is produced
+	 * 
+	 * @param ocean
+	 * @return json string containing information about the incidence of
+	 *         refactorings. Format:
+	 *         <p>
+	 *         {"csv" : "*.csv", "millis" : "9999"}
+	 *         <p>
+	 *         "csv": name of a csv file contained all processed data "millis":
+	 *         the duration of the recommendation
+	 */
+
+	@GET
+	@Path("/incidenceofrefactorings/contextualizedbyeffort/{ocean}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String exportEffortContextualizedIncidenceOfRefactorings(@PathParam("ocean") String ocean) {
+		long millis = (new Date()).getTime();
+		String result = "";
+
+		SparqlConnector sparqlConn = SparqlConnector.getInstance().init(properties);
+		try {
+			EffortContextualizedIncidenceOfRefactorings adapter = new EffortContextualizedIncidenceOfRefactorings();
+			adapter.init(properties);
+
+			sparqlConn.adapt(ocean, adapter);
+
+			millis = (new Date()).getTime() - millis;
+
+			result = "{\"csv\" : \"" + adapter.getCSVFileName() + "\", \"millis\" : \"" + millis + "\"}";
+		} catch (Exception e) {
+			result = "unable to export the incidence of refactorings";
 
 			e.printStackTrace();
 		}
