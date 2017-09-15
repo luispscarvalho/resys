@@ -146,7 +146,7 @@ public class Service {
 	 * be found at: https://github.com/luispscarvalho/der_codesmells/wiki.
 	 * 
 	 * @param ocean
-	 *            instance of ocean previously uploaded.
+	 *            instance of ocean previously uploaded to ontos input path
 	 * @param eccoba.dataset
 	 *            a dataset of correlations created by ECCOBA.
 	 * @param minimal.correlation
@@ -211,6 +211,7 @@ public class Service {
 	 * As a result, a csv file is produced
 	 * 
 	 * @param ocean
+	 *            instance of ocean previously uploaded to ontos input path
 	 * @return json string containing information about the incidence of
 	 *         refactorings. Format:
 	 *         <p>
@@ -252,6 +253,7 @@ public class Service {
 	 * As a result, a csv file is produced
 	 * 
 	 * @param ocean
+	 *            instance of ocean previously uploaded to ontos input path
 	 * @return json string containing information about the incidence of
 	 *         refactorings. Format:
 	 *         <p>
@@ -294,6 +296,7 @@ public class Service {
 	 * As a result, a csv file is produced
 	 * 
 	 * @param ocean
+	 *            instance of ocean previously uploaded to ontos input path
 	 * @return json string containing information about the incidence of
 	 *         refactorings. Format:
 	 *         <p>
@@ -304,15 +307,17 @@ public class Service {
 	 */
 
 	@GET
-	@Path("/incidenceofrefactorings/contextualizedbyeffort/{ocean}")
+	@Path("/incidenceofrefactorings/contextualizedbyeffort/{ocean}/{correlation}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String exportEffortContextualizedIncidenceOfRefactorings(@PathParam("ocean") String ocean) {
+	public String exportEffortContextualizedIncidenceOfRefactorings(@PathParam("ocean") String ocean,
+			@PathParam("correlation") double correlation) {
 		long millis = (new Date()).getTime();
 		String result = "";
 
 		SparqlConnector sparqlConn = SparqlConnector.getInstance().init(properties);
 		try {
-			EffortContextualizedIncidenceOfRefactorings adapter = new EffortContextualizedIncidenceOfRefactorings();
+			EffortContextualizedIncidenceOfRefactorings adapter = new EffortContextualizedIncidenceOfRefactorings(
+					correlation);
 			adapter.init(properties);
 
 			sparqlConn.adapt(ocean, adapter);
