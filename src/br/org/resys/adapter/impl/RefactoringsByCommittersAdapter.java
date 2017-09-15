@@ -4,8 +4,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -17,18 +15,17 @@ import br.org.resys.en.Sparqls;
 import br.org.resys.util.Util;
 
 /**
- * Select and export data concerning the evolution of the incidence of
+ * Select and export data representing the evolution of the incidence of
  * refactorings over time
  * <p>
  * The dataset is stored in a csv file which can later on be used to analyze the
- * recommendation of refactoring as smells are mined from software projects.
+ * recommendation of refactoring.
  * 
  * @author Luis Paulo
  */
 public class RefactoringsByCommittersAdapter implements ISparqlProcessingAdapter {
 
 	private List<String> lines;
-	private DateFormat dateFormat;
 
 	private BufferedWriter csvWriter;
 	private String csvFileName;
@@ -41,7 +38,6 @@ public class RefactoringsByCommittersAdapter implements ISparqlProcessingAdapter
 	@Override
 	public ISparqlProcessingAdapter init(Properties properties) throws Exception {
 		lines = new ArrayList<String>();
-		dateFormat = new SimpleDateFormat("yyyy-MM");
 
 		csvFileName = "refactoringsbycommitter_" + Util.generateUid() + ".csv";
 
