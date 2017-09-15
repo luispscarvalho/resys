@@ -55,6 +55,8 @@ public enum Sparqls {
 			"?codesmell ocean:refactoredBy ?refactoring . \n" +
 			"?recommendation ocean:hasRecommendedFor ?codesmell . \n" +
 			"?recommendation osore:contextualizedBy ?effort . \n" +
+			"?effort osore:correlation ?corr . \n" +
+			"FILTER (?corr >= #correlation#) . \n" +
 			"} ORDER BY ?datetime");
 	
 	private String statement;
